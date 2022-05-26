@@ -2,32 +2,36 @@ package com.harman.example
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class HomeActivity : AppCompatActivity() {
-    lateinit var tvHome : TextView
+    lateinit var contactEditText: EditText
+    var TAG = HomeActivity::class.java.simpleName
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        //get the data from main activity
-        //get the intent which started this activity
-        var intentStarted = intent;
-        //from that intent get the extras
-        var extras = intentStarted.extras
-        //from that extras get the string with the key/tag = harmankey
-        var data = extras?.getString("harmankey")
-        //show that data in a textview
-        //get the handle on the textview
-        tvHome = findViewById(R.id.tvHome)
-        //set the text/string that you got from the previous step
-        //tvHome.setText(data)
-        tvHome.text = data
+        contactEditText = findViewById(R.id.etContact)
+        Log.i(TAG,"home activity created")
+
     }
 
     fun clickHandler(view: View) {
-        var hIntent = Intent(this, MainActivity::class.java)
-        startActivity(hIntent)
+        //get the contact from the edittext
+        var data = contactEditText.text.toString()
+        Log.i(TAG,"setting the result --"+ data)
+
+        //put the contact in an intent
+        var intent = Intent()
+        intent.putExtra("result",data)
+        //set the result to success
+        setResult(RESULT_OK,intent)
+        //close this activity
+        finish()
+
     }
 }
